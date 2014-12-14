@@ -1,7 +1,7 @@
 portfolio
 =========
 
-Welcome to my portfolio repository
+이정민의 포트폴리오 저장소입니다.
 
 
 
