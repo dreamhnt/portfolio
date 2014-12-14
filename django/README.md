@@ -27,7 +27,7 @@ def toJSON(objs, status=200):			#model 객체를 JSON serialize
         ensure_ascii = False)
 	return HttpResponse(j, status=status, content_type='application/json; charset=utf-8')
 ```
-```
+```python
 --model.py--
 class Article(models.Model):
 	content = models.CharField(max_length=200)
