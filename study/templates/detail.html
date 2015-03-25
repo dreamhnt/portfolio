@@ -1,0 +1,271 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <title>Let's Study !!</title>
+  <link rel="stylesheet" href="{% static "css/normalize.css"%}">
+  <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static "css/common.css"%}">
+  <link rel="stylesheet" href="{% static "css/main.css"%}">
+  <script src="{% static "js/jquery-2.1.3.min.js"%}"></script>
+  <script src="{% static "js/common.js"%}"></script>
+  <script src="{% static "js/jquery.dotdotdot.min.js"%}"></script>
+  <script>
+
+  </script>
+  <style>
+
+    #contents > .wrap {
+      width: 800px;
+			overflow:visible;
+			margin: 0 auto;
+    }
+		#article {
+			margin-top: 50px;
+			margin-bottom: 20px;
+			border: 2px solid #0D364D;
+			background-color: #19557c;
+		}
+		#article .category {
+			display: block;
+			padding: 10px;
+			margin: 20px;
+			background-color: #298B93;
+			float: left;
+		}
+
+		#article .title:after {
+			content: "";
+			position: absolute;
+			width: 95%;
+			left: 20px;
+			top:80px;
+			border-bottom: 2px solid #0D364D;
+		}
+		#intro {
+			height:270px;
+		}
+		#intro .contentBox > span {
+			color: #FEC900;
+			font-weight: bold	;
+		}
+		#intro:after {
+			content: "";
+			position: absolute;
+			width: 95%;
+			left: 20px;
+			top:350px;
+			border-top: 2px solid #0D364D;
+		}
+		#intro .contentBox {
+			position: absolute;
+			margin-left: 20px;
+			margin-top: 65px;
+			height:140px;
+		}
+        #intro .profile img {
+          width: 80px;
+          height: 80px;
+          background-size: cover;
+        }
+		#intro .contentBox .progress {
+			position: absolute;
+			background-color: #22844f;
+			width: 220px;
+		}
+		#intro .contentBox .progress, .contentBox .progress .bar {
+			height:30px;
+			border: 2px solid #0D364D;
+			top: 108px;
+			left: 78px;
+		}
+		#intro .contentBox .progress .bar {
+			width:100px;
+			background-color: #2458ad;
+			border-right: 0;
+			margin: -2px;
+		}
+		#intro .contentBox .progress .value {
+			display: block;
+			width:50px;
+			top: 5px;
+			left: 82px;
+			text-align: center;
+		}
+		#intro .contentBox .email, .contentBox .phone {
+			position: absolute;
+			color: snow;
+			font-size: 14px;
+			left: 100px;
+		}
+		#intro .contentBox .phone {
+			top:17px;
+		}
+		#intro .contentBox .email {
+			top: 42px;
+		}
+		#intro .contentBox .nickname {
+			padding: 5px;
+			width: 82px;
+			font-weight: bold;
+			height:60px;
+			top:78px;
+			left: -2px;
+		}
+		#intro .contentBox .period, .contentBox .place , .contentBox .nickname {
+			color: #298B93;
+			border: 2px solid #0D364D;
+			text-align: center;
+			display: block;
+		}
+		#intro .contentBox .period, .contentBox .place {
+			height: 32px;
+			margin-top: -6px;
+			line-height: 28px;
+		}
+		#intro .contentBox .period {
+			left: 156px;
+			width: 142px;
+		}
+		#intro .contentBox .place {
+			width: 80px;
+			left: 78px;
+		}
+		#post {
+			width:95%;
+			padding: 0;
+			white-space: pre-line;
+			margin:0 20px 20px 20px;
+		}
+
+		#comment-list {
+			padding-left: 0 !important;
+		}
+		#comment-form {
+			width: 95%;
+			margin: 0 auto
+		}
+		#comment-list .comment {
+			position: relative;
+			width: 100%;
+			border: 2px solid #0D364D;
+			padding: 15px;
+			margin-bottom: 20px;
+			background-color: #19557c;
+		}
+		#comment-list .nickname {
+			display: inline-block;
+			font-weight: bold;
+			color: #FEC900;
+			padding: 10px 15px;
+			margin-left: 85px;
+			margin-top: 20px;
+			margin-right: 10px;
+		}
+		#comment-list .nickname img {
+			position: absolute;
+			width: 70px;
+			left: 15px;
+			top:15px;
+			border-radius: 80px;
+			background-size: cover;
+		}
+		#comment-list .message {
+			margin-top: 25px;
+			margin-bottom: -10px;
+			padding: 20px;
+			white-space: pre;
+		}
+
+		#comment-form textarea {
+			width: 100%;
+			height: 100px;
+			padding: 20px;
+			background-color: #19557c;
+			border: 2px solid #0D364D;
+			margin-top: 20px;
+		}
+		#comment-form input {
+			float: none;
+			background-color: #FEC900;
+			color: black;
+			font-weight: bold;
+			width: 250px;
+			height: 30px;
+			border: 0;
+			margin: 20px auto;
+			margin-left: 250px;
+		}
+  </style>
+</head>
+<body>
+  <div id="container">
+    {% include "header.html" %}
+
+    <div id="contents">
+       <div class="wrap">
+         <article id="article">
+           <span class="category">{{ datas.category }}</span>
+           <h1 class="title">{{ datas.title }}</h1>
+           <div id="intro">
+             <div class="contentBox">
+               <div class="frame">
+                 <a href="#" class="profile">
+                   {% if datas.user.userprofile.picture %}
+                     <img src="{{ MEDIA_URL }}{{ datas.user.userprofile.picture }}" alt=""/>
+                   {% else %}
+                     <img src="{% static "img/profile.png"%}" alt=""/>
+                   {% endif %}
+                 </a>
+                 <span class="phone">{{ datas.user.userprofile.phone }}</span>
+                 <span class="email">{{ datas.user.email }}</span>
+               </div>
+               <span class="nickname">{{ datas.user.userprofile.nickname }}</span>
+               <span class="place">{{ datas.place }}</span>
+               <span class="period">{{ datas.period }}</span>
+               <div class="progress">
+                 <div class="bar"></div>
+                 <span class="value">2 / 2</span>
+               </div>
+             </div>
+           </div>
+           <div id="post">
+             {{ datas.content }}
+           </div>
+         </article>
+         <ul id="comment-list">
+           {% for comment in comments %}
+            <li class="comment">
+              <a href="" class="nickname">
+                {% if comment.user.userprofile.picture %}
+                  <img src="{{ MEDIA_URL }}{{ comment.user.userprofile.picture }}" alt=""/>
+                {% else %}
+                  <img src="{% static "img/profile.png"%}" alt=""/>
+                {% endif %}
+                {{ comment.user.userprofile.nickname }}
+              </a>
+              <span class="created">{{ comment.created }}</span>
+              <div class="message">{{ comment.message }}</div>
+            </li>
+           {% endfor %}
+         </ul>
+
+         <form action="/comment/" method="post" id="comment-form">
+           <textarea name="comment" required placeholder="글을 입력하세요."></textarea>
+           <input type="submit" value="덧글 쓰기">
+           <input type="hidden" value="{{ datas.id }}" name="bbs_id">
+         </form>
+       </div>
+    </div>
+    <footer id="footer">
+      <div class="wrap">
+
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
