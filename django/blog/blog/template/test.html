@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="description" content="" />
+    <meta name="author" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}dist/css/bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}dist/css/font-awesome.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}dist/css/style.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}dist/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}dist/js/holder.js"></script>
+</head>
+<body>
+	<header class="header-wrapper">
+     <div class="container logo">
+        <a href="/"><img src="{{ STATIC_URL }}logo2.png" class="logo2" alt="hamsung"></a>
+         <div class="navbar navbar-inverse">
+          <div class="navbar-inner">
+            <div class="container">
+
+              <div class="nav-collapse collapse">
+                <ul class="nav">
+                  <li class="active"><a href="index.php">공지사항</a></li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">갤러리
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu js-activated">
+                      <li><a href="gallery.php">소개</a></li>
+                      <li><a href="gallery2.php">입당식</a></li>
+                      <li><a href="#">엠티</a></li>
+                      <li><a href="#">공연</a></li>
+                      <li><a href="#">etc</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">공연영상</a></li>
+                  <li><a href="/music">민중가요</a></li>
+                  <li><a href="#">게시판</a></li>
+                  <li><a href="#">연락처</a></li>
+                </ul>
+                <!-- search form
+                <form class="navbar-search pull-left form-search">
+                  <div class="input-append">
+                    <input type="text" class="span2 search-query" placeholder="Search">
+                    <button type="submit" class="btn btn-primary"><i class="icon-search"></i></button>
+                  </div>
+                </form> -->
+                <ul class="nav pull-right">
+                 <!--다른종류의 로그인
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">로그인
+                      <b class="caret"></b>
+                    </a>
+                    <div class="dropdown-menu login-form">
+                      <form method="post" action="login" accept-charset="UTF-8">
+                        <input type="text" placeholder="아이디" id="username" name="username">
+                        <input type="password" placeholder="비밀번호" id="password" name="password">
+                        <input type="checkbox" name="remember-me" id="remember-me" value="1">
+                        <label class="string optional" for="user_remember_me"> 기억하기</label>
+                        <input class="btn btn-primary btn-block" type="submit" id="sign-in" value="로그인">
+                              <button type="submit" class="btn btn-block"><i class="icon-google-plus"></i> 구글 로그인</button>
+                        <button type="submit" class="btn btn-block"><i class="icon-twitter"></i> 트위터 로그인</button>
+                      </form>
+                    </div>
+                  </li> -->
+                  <li><a href="#" style="color:#1E8FD6;">{{ user.username }}</a></li>
+                  <li class="divider-vertical"></li>
+                  <li><a href="/logout/">로그아웃</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+     </div>
+    </header>
+    <!--Content Area -->
+	<section class="container">
+	  <button type="button" class="btn btn-info btn-lg">공연곡</button>
+	  <button type="button" class="btn btn-info btn-lg">검색</button>
+
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+      Launch demo modal
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+	</section> <!--content-wrapper-->
+
+	<footer class="footer-wrapper">
+		<!--<div class="container">
+			푸터 콘텐츠
+		</div>-->
+		<div class="footer-bottom-wrapper">
+		  <div class="container">
+		   <div class="row">
+		    <div class="span6">
+		      <p>Copyright &copy; 1986-2013 Incheon University - Hamsung &copy; Lee jung min. tel.032-835-4493</p>
+		    </div>
+		    <!-- 하단 소메뉴
+		    <div class="span6">
+		      <nav class="span6">
+		        <ul class="inline pull-right">
+		          <li><a href="#" rel="tooltip" data-placement="top" data-original-title="준비 중입니다">소개</a></li>
+		          <li><a href="#" rel="tooltip" data-placement="top" data-original-title="준비 중입니다">도움말</a></li>
+		          <li><a href="#" rel="tooltip" data-placement="top" data-original-title="준비 중입니다">블로그</a></li>
+		          <li><a href="#" rel="tooltip" data-placement="top" data-original-title="준비 중입니다">추천글</a></li>
+		          <li><a href="#" rel="tooltip" data-placement="top" data-original-title="준비 중입니다">광고</a></li>
+		          <li><a href="#" rel="tooltip" data-placement="top" data-original-title="준비 중입니다">이용약관</a></li>
+		          <li><a href="#" rel="tooltip" data-placement="top" data-original-title="준비 중입니다">개인정보</a></li>
+		          <li><a href="#" rel="tooltip" data-placement="top" data-original-title="준비 중입니다">우선심사</a></li>
+		        </ul>
+		      </nav>
+		    </div> -->
+		   </div>
+		  </div><!--container-->
+		 </div><!--footer-bottom-wrapper-->
+	</footer>
+
+</body>
+</html>
