@@ -1,4 +1,5 @@
 {% load endless %}
+{% load staticfiles %}
 
 {% paginate 5 bbs %}
 {% for bbs in bbs %}
@@ -6,9 +7,14 @@
            <div class="contentBox">
              <div class="frame">
               <a href="#" class="profile">
+                {% if bbs.user.userprofile.picture %}
+                  <img src="{{ MEDIA_URL }}{{ bbs.user.userprofile.picture }}" alt=""/>
+                {% else %}
+                  <img src="{% static "img/profile.png"%}" alt=""/>
+                {% endif %}
               </a>
               <div class="title">
-                <a href="#" >{{ bbs.title }}</a>
+                <a href="detail/{{ bbs.id }}" >{{ bbs.title }}</a>
               </div>
               <a href="#" class="name">{{ bbs.user.userprofile.nickname }}</a>
             </div>

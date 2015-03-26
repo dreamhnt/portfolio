@@ -11,13 +11,16 @@ urlpatterns = patterns('letsstudy.views',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', 'login_page'),
     url(r'^logout/', 'dologout'),
+
     url(r'^$', 'main_page'),
+    url(r'^bbs/(?P<method>search)/$', 'main_page'),
+
     url(r'^test/', 'test_page'),
     url(r'^signup/', 'signup'),
     url(r'^login_check', 'login_check'),
     url(r'^write_page/', 'write_page'),
     url(r'^write', 'write'),
-    url(r'^bbsList/', 'bbsList'),
+
     url(r'^detail/(?P<num>\d+/$)', 'detail_page'),
     url(r'^comment/', 'comment'),
 )

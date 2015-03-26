@@ -2,9 +2,11 @@
       overflow: hidden;
       width: 800px;
     }
+/*
 #contents > .post {
   display: none;
 }
+*/
     .contentBox {
       position: relative;
       margin: 5px;
@@ -19,9 +21,13 @@
       float: left;
       width: 80px;
       height: 80px;
-
       background-size: cover;
       border-right: 2px solid #0D364D;
+    }
+    .contentBox .frame .profile img {
+      width: 80px;
+      height: 80px;
+      background-size: cover;
     }
     .contentBox .frame {
       position: absolute;

@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q      #복잡한 queryset 사용하기위해 (검색에 or 수행)
 from endless_pagination.decorators import page_template
 # Create your views here.
 
@@ -21,7 +22,7 @@ def toJSON(objs, status=200):
     j = json.dumps(objs, ensure_ascii=False)
     return HttpResponse(j, status=status, content_type='application/json; charset=utf-8')
 
-
+'''
 def main_page(request):
     return render_to_response(
         'index.html',
@@ -29,10 +30,26 @@ def main_page(request):
             'user': request.user,
         })
     )
+'''
+def main_page(request, template='index.html', page_template='bbs_list.html'):
+    if bool(request.GET):
+        q = request.GET['search']
+        bbs = Board.objects.filter(Q(content__contains=q) | Q(title__contains=q)).order_by('created')
+    else:
+        bbs = Board.objects.order_by('-created').all()
+    context = {
+        'user': request.user,
+        'bbs': bbs,
+        'page_template': page_template,
+    }
+    if request.is_ajax():
+        template = page_template
+    return render_to_response(template, context, context_instance=RequestContext(request))
+
 def detail_page(request, num):
     num = int(num[:-1])         # num 값이 '232/' 이런 문자열로 넘어오기때문에 마지막 '/'를 제거해주고 변환한다.
     bbs = Board.objects.get(id=num)
-    comments = BoardComment.objects.order_by('-created').all().filter(board=bbs)
+    comments = BoardComment.objects.filter(board=bbs)
     print(bbs.user.userprofile.picture)
     return render_to_response(
         'detail.html',
@@ -43,10 +60,18 @@ def detail_page(request, num):
         })
     )
 
-def bbsList(request):
-    bbs = Board.objects.order_by('-created').all()
-    return toJSON(serialize(bbs))
 
+'''
+@csrf_exempt
+def bbs(request, method):
+    if method == 'search':
+        q = request.GET['query']
+        bbs = Board.objects.filter(Q(content__contains=q) | Q(title__contains=q)).order_by('created')
+        return toJSON(serialize(bbs))
+    elif method == 'list':
+        bbs = Board.objects.order_by('-created').all()
+        return toJSON(serialize(bbs))
+'''
 @csrf_exempt
 def comment(request):
     if request.method == 'POST':
