@@ -42,8 +42,7 @@ class Board(models.Model):
     picture = models.ImageField(upload_to='boardImage/', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.id
+
 
 
     def serialize(self):

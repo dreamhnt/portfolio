@@ -3,10 +3,12 @@ from letsstudy.models import *
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 import json
+import ast
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
 from django.db.models import Q      #복잡한 queryset 사용하기위해 (검색에 or 수행)
 from endless_pagination.decorators import page_template
 # Create your views here.
@@ -31,12 +33,15 @@ def main_page(request):
         })
     )
 '''
-def main_page(request, template='index.html', page_template='bbs_list.html'):
-    if bool(request.GET):
-        q = request.GET['search']
+@csrf_exempt
+def main_page(request, method="list", template='index.html', page_template='bbs_list.html'):
+    if method == 'search' and request.method == 'GET':
+        q = request.GET['query']
         bbs = Board.objects.filter(Q(content__contains=q) | Q(title__contains=q)).order_by('created')
+
     else:
         bbs = Board.objects.order_by('-created').all()
+
     context = {
         'user': request.user,
         'bbs': bbs,
@@ -45,6 +50,26 @@ def main_page(request, template='index.html', page_template='bbs_list.html'):
     if request.is_ajax():
         template = page_template
     return render_to_response(template, context, context_instance=RequestContext(request))
+
+def select(request):
+    data = ast.literal_eval(request.GET['data'])   #str을 적절한 형태로 변환. 이 경우는 list
+    print(data)
+    bbs = Board.objects.all()
+    result = []
+    for item in bbs:
+        for i in data:
+            if i['key'] == 'category' and i['value'] == item.category:
+                result.append(item)
+            elif i['key'] == 'place' and i['value'] == item.place:
+                    result.append(item)
+        '''
+        _q = Q(content__contains=q)
+        _q = _q | Q(title__contains=q)
+        Board.objects.filter(_q)
+        '''
+    print(result)
+    j = json.dumps(serialize(result), ensure_ascii=False)
+    return HttpResponse(j, status=200, content_type='application/json; charset=utf-8')
 
 def detail_page(request, num):
     num = int(num[:-1])         # num 값이 '232/' 이런 문자열로 넘어오기때문에 마지막 '/'를 제거해주고 변환한다.
@@ -59,7 +84,6 @@ def detail_page(request, num):
             'comments': comments,
         })
     )
-
 
 '''
 @csrf_exempt
@@ -146,7 +170,7 @@ def login_check(request):
     else:
         return toJSON({'status':'bad request'},400)
 
-@login_required(login_url='login/')
+@login_required(login_url='/login')
 def write_page(request):
     return render_to_response(
         'write_page.html',

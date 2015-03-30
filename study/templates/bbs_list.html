@@ -1,5 +1,5 @@
-{% load endless %}
 {% load staticfiles %}
+{% load endless %}
 
 {% paginate 5 bbs %}
 {% for bbs in bbs %}
@@ -18,15 +18,15 @@
               </div>
               <a href="#" class="name">{{ bbs.user.userprofile.nickname }}</a>
             </div>
-            <div class="info">
-
-            </div>
             <span class="capacity">{{ bbs.capacity }}</span>
             <span class="period">{{ bbs.period }}</span>
             <span class="place">{{ bbs.place }}</span>
-            <a href="#" class="plus"><span href="#">+</span></a>
+            <a href="#" class="plus"><span>+</span></a>
            </div>
-             <a href="#" class=".box" style="height: 30px; color: snow;">{{ bbs.category }}</a>
+           <div class="secframe">
+              <span class="category">{{ bbs.category }}</span>
+              <span class="created ">{{ bbs.created }}</span>
+           </div>
          </li>
          {% endfor %}
 {% show_more %}

@@ -15,14 +15,22 @@
   <script src="{% static "js/common.js"%}"></script>
   <script src="{% static "js/jquery.dotdotdot.min.js"%}"></script>
   <script src="{% static "js/endless_pagination.js"%}"></script>
+  <script src="{% static "js/spin.min.js"%}"></script>
   <script>
 
     $(function() {
+      $("#contents .post").show();
       $.endlessPaginate({
         paginateOnScroll: true,
         paginateOnScrollMargin: 40
       });
 
+      /*
+      var target = $('.endless_loading');
+      target.html("");
+      var spinner = new Spinner().spin();
+      target.append(spinner.el);
+       */
       $("#contents .contentBox .title").dotdotdot({
         /*	The text to add as ellipsis. */
         ellipsis	: '... ',
@@ -42,25 +50,75 @@
         /*	Optionally set a max-height, if null, the height will be measured. */
         height		: 40
       });
-      $("#searchBox > input[type=checkbox]").change(function() {
-        console.log(this.checked);
+      var clickObjs = [];
+      $("#searchBox li").click(function() {
+        var key = $(this).parent().attr("class");
+        var value = $(this).html();
 
+        if($(this).val() == 1){
+          $(this).val(0);
+          for(var i=0; i < clickObjs.length; i++){
+            if(clickObjs[i].key==key && clickObjs[i].value==value){
+              clickObjs.splice(i,1);
+              break;
+            }
+          }
+        } else {
+          $(this).val(1);
+          clickObjs.push({
+            key:key,
+            value:value
+          })
+        }
+
+        var j = JSON.stringify(clickObjs);
+        $.ajax({
+          url: baseUrl + 'select/',
+          type: 'get',
+          data: {data: j},
+          success: function(data) {
+            $("#bbs-list").html('');
+            $.each(data, function(index, item){
+              console.log(item);
+              bbsAppend(item);
+            });
+          },
+          error: function(msg) {
+            alert("FAil");
+          }
+        });
+        var bbsAppend = function(data) {
+            console.log("aaaaaaaaaa")
+            var node = $('#contents .post-dummy').clone();
+            $('.title > a',node).append(data.title);
+            $('.title > a',node).attr("href","detail/" + data.id);
+            $('.name',node).append(data.nickname);
+            $('.capacity',node).append(data.capacity);
+            $('.period',node).append(data.period);
+            $('.place',node).append(data.place);
+            $('.category',node).append(data.category);
+            if(data.picture == null) {
+              $('.profile img',node).attr("src", "{% static "img/profile.png"%}");
+            } else {
+              $('.profile img',node).attr("src", "{{ MEDIA_URL }}{{ datas.user.userprofile.picture }}");
+            }
+            node.removeClass('post-dummy');
+            node.addClass('post');
+            node.show();
+            $('#bbs-list').append(node);
+
+          };
       });
+
     });
   </script>
   <style>
-    label {
-        display: inline-block;
-        cursor: pointer;
-      width: 40px;
-      height: 30px;
-        position: relative;
-      background-color: red;
-       margin-right: 15px;
-        font-size: 13px;
-    }
-    input[type=checkbox] {
-      display: none;
+    #searchBox .category li {
+			background-color: skyblue;
+			margin: 10px;
+		}
+    #contents .post-dummy {
+      display: none ;
     }
   </style>
 </head>
@@ -68,16 +126,41 @@
   <div id="container">
     {% include "header.html" %}
     <div id="searchBox">
-      <a href="/write_page/">글쓰기</a>
-      <input type="checkbox" id="it" name="category"/><label for="it">IT</label>
-      <input type="checkbox" id="toeic" name="category"/><label for="toeic">TOEIC</label>
-      <input type="checkbox" id="seoul" name="place"/><label for="seoul">서울</label>
+      <ul class="category">
+      	<li>IT</li>
+      	<li>토익</li>
+        <li>음악</li>
+      </ul>
+      <ul class="place">
+      	<li>서울</li>
+      	<li>인천</li>
+      </ul>
     </div>
     <div id="contents">
        <ul class="wrap" id="bbs-list">
          {% include page_template %}
        </ul>
-
+       <li class="post-dummy">
+           <div class="contentBox">
+             <div class="frame">
+              <a href="#" class="profile">
+                <img src="" alt=""/>
+              </a>
+              <div class="title">
+                <a href="#" ></a>
+              </div>
+              <a href="#" class="name"></a>
+            </div>
+            <span class="capacity"></span>
+            <span class="period"></span>
+            <span class="place"></span>
+            <a href="#" class="plus"><span>+</span></a>
+           </div>
+           <div class="secframe">
+              <span class="category"></span>
+              <span class="created "></span>
+           </div>
+       </li>
     </div>
     <footer id="footer">
       <div class="wrap">

@@ -13,7 +13,8 @@ urlpatterns = patterns('letsstudy.views',
     url(r'^logout/', 'dologout'),
 
     url(r'^$', 'main_page'),
-    url(r'^bbs/(?P<method>search)/$', 'main_page'),
+    url(r'^(?P<method>search)/$', 'main_page'),
+    url(r'^select/', 'select'),
 
     url(r'^test/', 'test_page'),
     url(r'^signup/', 'signup'),
